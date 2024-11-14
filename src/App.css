@@ -1,0 +1,11 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+body {
+  background-image: url("./assets/earth.png");
+  background-size: auto;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-color: #030616;
+}
