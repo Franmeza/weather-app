@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@/utils/consts";
+import { CurrentWeatherResponse } from "@/utils/types";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = `${API_BASE_URL}/data/2.5`;
@@ -6,24 +7,6 @@ const API_URL = `${API_BASE_URL}/data/2.5`;
 type GeoCodingResponse = {
   lat: number;
   lon: number;
-};
-
-type CurrentWeatherResponse = {
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-  };
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  name: string;
-  wind: {
-    speed: number;
-  };
 };
 
 async function getDirectGeocoding(

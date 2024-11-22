@@ -1,24 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { getCurrentWeather, getDirectGeocoding } from "@/services/weatherApi";
 import unitTempCovert from "@/utils/tempConversor";
-
-type CurrentWeatherResponse = {
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-  };
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  name: string;
-  wind: {
-    speed: number;
-  };
-} | null;
+import { CurrentWeatherResponse } from "@/utils/types";
 
 type WeatherContextType = {
   location: string;
