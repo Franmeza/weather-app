@@ -1,12 +1,8 @@
 import SearchIcon from "@/assets/Search.svg";
-import { useState } from "react";
+import { useWeatherContext } from "./hooks/useWeatherContext";
 
 function Header() {
-  const [tempUnit, setTempUnit] = useState("C");
-
-  const handleTempUnit = (unit: string) => {
-    setTempUnit(unit);
-  };
+  const { tempUnit, handleTempUnit } = useWeatherContext();
   return (
     <header className="flex w-full items-center justify-between ">
       <div className=" relative">
