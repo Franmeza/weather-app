@@ -1,9 +1,9 @@
-import "./App.css";
 import CurrentLocation from "./components/CurrentLocation";
 import FiveDaysForecast from "./components/FiveDaysForecast";
 import Header from "./components/Header";
 import OtherCitiesWeather from "./components/OtherCitiesWeather";
 import TodayForecast from "./components/TodayForecast";
+import "./App.css";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 function TodayForecast() {
   return (
-    <section className=" w-[752px] h-[187px] border border-white "></section>
+    <section className=" flex w-[752px] h-[187px] border border-white "></section>
   );
 }
 

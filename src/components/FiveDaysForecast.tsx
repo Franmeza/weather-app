@@ -1,4 +1,4 @@
-import H2 from "./H2";
+import H2 from "./reusable/H2";
 
 function FiveDaysForecast() {
   return (
