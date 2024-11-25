@@ -1,8 +1,25 @@
 import SearchIcon from "@/assets/Search.svg";
 import { useWeatherContext } from "./hooks/useWeatherContext";
+import { useCallback, useState } from "react";
+import debounce from "just-debounce-it";
 
 function Header() {
-  const { tempUnit, handleTempUnit } = useWeatherContext();
+  const [searchValue, setSearchValue] = useState("");
+  const { tempUnit, handleTempUnit, setLocation } = useWeatherContext();
+
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      setLocation(searchValue);
+    }, 500),
+    [] // Empty dependency array since we don't want to recreate this function
+  );
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    debouncedSearch(value);
+  };
+
   return (
     <header className="flex w-full items-center justify-between ">
       <div className=" relative">
@@ -10,6 +27,8 @@ function Header() {
           className="rounded-full pl-11 py-2 bg-[#20293A] border border-[#20293A] focus:border-[#030616] focus:outline-none"
           type="text"
           placeholder="Search city..."
+          value={searchValue}
+          onChange={handleSearch}
         />
         <span className="flex items-center absolute top-0 inset-y-0 ml-2  mr-4">
           <img src={SearchIcon} alt="magnifier" />

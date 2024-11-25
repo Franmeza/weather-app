@@ -10,7 +10,7 @@ function CurrentLocation() {
   return (
     <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 w-full">
       <CardsContainer>
-        <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}</h1>
+        <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}°</h1>
         <div className="text-end">
           <h2 className="text-2xl font-medium">{currentWeather?.name}</h2>
           <span className="text-xs">{localTime}</span>
