@@ -2,15 +2,16 @@ import { createContext, useEffect, useState } from "react";
 import { getCurrentWeather, getDirectGeocoding } from "@/services/weatherApi";
 import unitTempCovert from "@/utils/tempConversor";
 import { CurrentWeatherResponse } from "@/utils/types";
+import { getGeolocation } from "@/utils/geoLocation";
 
 type WeatherContextType = {
   location: string;
-  SetLocation: (location: string) => void;
-  currentWeather: CurrentWeatherResponse;
+  setLocation: (location: string) => void;
+  currentWeather: CurrentWeatherResponse | null;
   coordinates: {
     lat: number;
     lon: number;
-  };
+  } | null;
   tempUnit: string;
   handleTempUnit: (unit: string) => void;
 };
@@ -23,44 +24,39 @@ export function WeatherContextProvider({
   children: React.ReactNode;
 }) {
   const [tempUnit, setTempUnit] = useState("C");
-  const [location, SetLocation] = useState("");
+  const [location, setLocation] = useState("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherResponse | null>(null);
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lon: number;
-  }>({ lat: 0, lon: 0 });
+  } | null>(null);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCoordinates({ lat: latitude, lon: longitude });
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          // Optionally set default coordinates
-          setCoordinates({ lat: 0, lon: 0 });
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+    //Get user geolocation
+    const geoLocation = async () => {
+      const { lat, lon } = await getGeolocation();
+      setCoordinates({ lat, lon });
+    };
+    geoLocation();
   }, []);
 
   useEffect(() => {
     const fetchWeather = async () => {
-      if (location === "" && coordinates.lat !== 0 && coordinates.lon !== 0) {
-        const weather = await getCurrentWeather(
-          coordinates.lat,
-          coordinates.lon
-        );
-        setCurrentWeather(weather);
-      } else if (location !== "") {
-        const { lat, lon } = await getDirectGeocoding(location);
-        const weather = await getCurrentWeather(lat, lon);
-        setCurrentWeather(weather);
+      try {
+        if (location === "" && coordinates) {
+          const weather = await getCurrentWeather(
+            coordinates.lat,
+            coordinates.lon
+          );
+          setCurrentWeather(weather);
+        } else if (location !== "") {
+          const { lat, lon } = await getDirectGeocoding(location);
+          const weather = await getCurrentWeather(lat, lon);
+          setCurrentWeather(weather);
+        }
+      } catch (error) {
+        console.error("Error fetching weather:", error);
       }
     };
     fetchWeather();
@@ -73,7 +69,7 @@ export function WeatherContextProvider({
     <WeatherContext.Provider
       value={{
         location,
-        SetLocation,
+        setLocation,
         currentWeather: currentWeather
           ? {
               ...currentWeather,
