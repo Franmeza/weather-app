@@ -2,21 +2,30 @@ import CardsContainer from "./reusable/CardsContainer";
 import windIcon from "@/assets/wind.png";
 import { localTime } from "@/utils/localTime";
 import { useWeatherContext } from "./hooks/useWeatherContext";
+import { useGeolocation } from "@/utils/useGeoLocation";
+import { getReverseGeocode } from "@/services/api/weatherApi";
+import { useEffect, useState } from "react";
 
 function CurrentLocation() {
+  const [city, setCity] = useState<string | undefined>("");
+  const { coordinates } = useGeolocation();
+
   const { currentWeather } = useWeatherContext();
-  const {
-    main,
-    weather: [weather],
-    name,
-    wind,
-  } = currentWeather!;
+
+  useEffect(() => {
+    const getLocationName = async () => {
+      const data = coordinates ? await getReverseGeocode(coordinates) : null;
+      setCity(data?.[0].name);
+    };
+    getLocationName();
+  }, [coordinates]);
+
   return (
     <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 w-full">
       <CardsContainer>
-        <h1 className="text-6xl font-semibold">{main.temp}°</h1>
+        <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}°</h1>
         <div className="text-end">
-          <h2 className="text-2xl font-medium">{name}</h2>
+          <h2 className="text-2xl font-medium">{city}</h2>
           <span className="text-xs">{localTime}</span>
         </div>
       </CardsContainer>
@@ -24,12 +33,12 @@ function CurrentLocation() {
         <div className="flex items-center ">
           <img
             className="inline"
-            src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
-            alt={weather.description}
+            src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0].icon}@4x.png`}
+            alt={currentWeather?.weather[0].description}
             width={36}
             height={36}
           />
-          <span className="ml-3">{weather.main}</span>
+          <span className="ml-3">{currentWeather?.weather[0].main}</span>
         </div>
         <div>
           <img
@@ -39,13 +48,13 @@ function CurrentLocation() {
             height={36}
             alt="wind"
           />
-          <span className="ml-3">{wind.speed} m/s</span>
+          <span className="ml-3">{currentWeather?.wind.speed} m/s</span>
         </div>
       </CardsContainer>
       <CardsContainer>
-        <p>Feel like: {main.feels_like}°</p>
+        <p>Feel like: {currentWeather?.main.feels_like}°</p>
         <p>
-          {main.temp_min}° to {main.temp_max}°
+          {currentWeather?.main.temp_min}° to {currentWeather?.main.temp_max}°{" "}
         </p>
       </CardsContainer>
     </section>

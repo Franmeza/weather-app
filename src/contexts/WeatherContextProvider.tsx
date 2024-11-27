@@ -1,8 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import { getCurrentWeather, getDirectGeocoding } from "@/services/weatherApi";
+
 import unitTempCovert from "@/utils/tempConversor";
-import { CurrentWeatherResponse } from "@/utils/types";
-import { getGeolocation } from "@/utils/geoLocation";
+
+import { useGeolocation } from "@/utils/useGeoLocation";
+import {
+  getCurrentWeather,
+  getDirectGeocoding,
+} from "@/services/api/weatherApi";
+import { CurrentWeatherResponse } from "@/services/api/types";
 
 type WeatherContextType = {
   location: string;
@@ -27,19 +32,8 @@ export function WeatherContextProvider({
   const [location, setLocation] = useState("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherResponse | null>(null);
-  const [coordinates, setCoordinates] = useState<{
-    lat: number;
-    lon: number;
-  } | null>(null);
 
-  useEffect(() => {
-    //Get user geolocation
-    const geoLocation = async () => {
-      const { lat, lon } = await getGeolocation();
-      setCoordinates({ lat, lon });
-    };
-    geoLocation();
-  }, []);
+  const { coordinates } = useGeolocation();
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -51,7 +45,9 @@ export function WeatherContextProvider({
           );
           setCurrentWeather(weather);
         } else if (location !== "") {
-          const { lat, lon } = await getDirectGeocoding(location);
+          const data = await getDirectGeocoding(location);
+          const { lat, lon } = data[0];
+
           const weather = await getCurrentWeather(lat, lon);
           setCurrentWeather(weather);
         }

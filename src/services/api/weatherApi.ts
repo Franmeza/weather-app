@@ -15,46 +15,51 @@ function createUrl(endpoint: string, params: Record<string, string | number>) {
   return `${endpoint}?${searchParams.toString()}`;
 }
 
-async function FetchData<T>(url: string): Promise<T> {
+async function fetchData<T>(url: string): Promise<T> {
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch data");
   const data = await res.json();
   return data;
 }
 
-export async function getReverseGeocode({ lat, lon }: Coordinates) {
-  const url = createUrl(API_CONFIG.ENNDPOINTS.reverse_geocoding, {
+async function getReverseGeocode({ lat, lon }: Coordinates) {
+  const url = createUrl(`${API_CONFIG.GEO}/reverse`, {
     lat: lat.toString(),
     lon: lon.toString(),
   });
-  const data = FetchData<GeocodingResponse[]>(url);
+  const data = fetchData<GeocodingResponse[]>(url);
   return data;
 }
 
 async function getDirectGeocoding(location: string) {
-  const url = createUrl(API_CONFIG.ENNDPOINTS.direct_geocoding, {
+  const url = createUrl(`${API_CONFIG.GEO}/direct`, {
     q: location,
   });
-  const data = await FetchData<GeocodingResponse[]>(url);
+  const data = await fetchData<GeocodingResponse[]>(url);
   return data;
 }
 
 async function getCurrentWeather(lat: number, lon: number) {
-  const url = createUrl(API_CONFIG.ENNDPOINTS.weather, {
+  const url = createUrl(`${API_CONFIG.BASE_URL}/weather`, {
     lat: lat.toString(),
     lon: lon.toString(),
   });
-  const data = await FetchData<CurrentWeatherResponse>(url);
+  const data = await fetchData<CurrentWeatherResponse>(url);
   return data;
 }
 
 async function getForecast(lat: string, lon: string) {
-  const url = createUrl(API_CONFIG.ENNDPOINTS.forecast, {
+  const url = createUrl(`${API_CONFIG.BASE_URL}/forecast`, {
     lat,
     lon,
   });
-  const data = await FetchData<ForecastResponse[]>(url);
+  const data = await fetchData<ForecastResponse[]>(url);
   return data;
 }
 
-export { getDirectGeocoding, getCurrentWeather, getForecast };
+export {
+  getDirectGeocoding,
+  getReverseGeocode,
+  getCurrentWeather,
+  getForecast,
+};
