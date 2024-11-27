@@ -2,23 +2,34 @@ import CardsContainer from "./reusable/CardsContainer";
 import windIcon from "@/assets/wind.png";
 import { localTime } from "@/utils/localTime";
 import { useWeatherContext } from "./hooks/useWeatherContext";
-import { useGeolocation } from "@/utils/useGeoLocation";
-import { getReverseGeocode } from "@/services/api/weatherApi";
+import { useGeolocation } from "@/hooks/useGeoLocation";
+import {
+  getDirectGeocoding,
+  getReverseGeocode,
+} from "@/services/api/weatherApi";
 import { useEffect, useState } from "react";
 
 function CurrentLocation() {
   const [city, setCity] = useState<string | undefined>("");
   const { coordinates } = useGeolocation();
 
-  const { currentWeather } = useWeatherContext();
+  const { currentWeather, location } = useWeatherContext();
 
   useEffect(() => {
     const getLocationName = async () => {
-      const data = coordinates ? await getReverseGeocode(coordinates) : null;
-      setCity(data?.[0].name);
+      if (location.length > 3) {
+        const data = await getDirectGeocoding(location);
+        if (data.length === 0) return;
+        const { lat, lon } = data[0];
+        const city = await getReverseGeocode({ lat, lon });
+        setCity(city[0].name);
+        return;
+      }
+      const city = coordinates ? await getReverseGeocode(coordinates) : null;
+      setCity(city?.[0].name);
     };
     getLocationName();
-  }, [coordinates]);
+  }, [coordinates, location]);
 
   return (
     <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 w-full">

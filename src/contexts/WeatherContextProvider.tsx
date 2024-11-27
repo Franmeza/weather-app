@@ -1,13 +1,8 @@
-import { createContext, useEffect, useState } from "react";
-
+import { createContext, useState } from "react";
 import unitTempCovert from "@/utils/tempConversor";
-
-import { useGeolocation } from "@/utils/useGeoLocation";
-import {
-  getCurrentWeather,
-  getDirectGeocoding,
-} from "@/services/api/weatherApi";
+import { useGeolocation } from "@/hooks/useGeoLocation";
 import { CurrentWeatherResponse } from "@/services/api/types";
+import useFetchWeather from "@/hooks/useFetchWeather";
 
 type WeatherContextType = {
   location: string;
@@ -29,68 +24,43 @@ export function WeatherContextProvider({
   children: React.ReactNode;
 }) {
   const [tempUnit, setTempUnit] = useState("C");
+
   const [location, setLocation] = useState("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherResponse | null>(null);
 
   const { coordinates } = useGeolocation();
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        if (location === "" && coordinates) {
-          const weather = await getCurrentWeather(
-            coordinates.lat,
-            coordinates.lon
-          );
-          setCurrentWeather(weather);
-        } else if (location !== "") {
-          const data = await getDirectGeocoding(location);
-          const { lat, lon } = data[0];
-
-          const weather = await getCurrentWeather(lat, lon);
-          setCurrentWeather(weather);
-        }
-      } catch (error) {
-        console.error("Error fetching weather:", error);
-      }
-    };
-    fetchWeather();
-  }, [coordinates, location]);
+  useFetchWeather(location, coordinates, setCurrentWeather);
 
   const handleTempUnit = (unit: string) => {
     setTempUnit(unit);
   };
+
+  const contextValue = {
+    location,
+    setLocation,
+    currentWeather: currentWeather
+      ? {
+          ...currentWeather,
+          main: {
+            temp: unitTempCovert(currentWeather.main.temp, tempUnit),
+            feels_like: unitTempCovert(
+              currentWeather.main.feels_like,
+              tempUnit
+            ),
+            temp_min: unitTempCovert(currentWeather.main.temp_min, tempUnit),
+            temp_max: unitTempCovert(currentWeather.main.temp_max, tempUnit),
+          },
+        }
+      : null,
+    coordinates,
+    handleTempUnit,
+    tempUnit,
+  };
+
   return (
-    <WeatherContext.Provider
-      value={{
-        location,
-        setLocation,
-        currentWeather: currentWeather
-          ? {
-              ...currentWeather,
-              main: {
-                temp: unitTempCovert(currentWeather.main.temp, tempUnit),
-                feels_like: unitTempCovert(
-                  currentWeather.main.feels_like,
-                  tempUnit
-                ),
-                temp_min: unitTempCovert(
-                  currentWeather.main.temp_min,
-                  tempUnit
-                ),
-                temp_max: unitTempCovert(
-                  currentWeather.main.temp_max,
-                  tempUnit
-                ),
-              },
-            }
-          : null,
-        coordinates,
-        handleTempUnit,
-        tempUnit,
-      }}
-    >
+    <WeatherContext.Provider value={contextValue}>
       {children}
     </WeatherContext.Provider>
   );
