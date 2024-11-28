@@ -5,6 +5,7 @@ import debounce from "just-debounce-it";
 
 function Header() {
   const [searchValue, setSearchValue] = useState("");
+
   const { tempUnit, handleTempUnit, setLocation } = useWeatherContext();
 
   const debouncedSearch = useCallback(
@@ -15,9 +16,15 @@ function Header() {
   );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchValue(value);
-    debouncedSearch(value);
+    const city = e.target.value;
+    setSearchValue(city);
+    debouncedSearch(city);
+    // const params = new URLSearchParams(window.location.search);
+    // if (city === "") {
+    //   params.delete("city");
+    // }
+    // params.set("city", city);
+    // window.history.pushState({}, "", `${window.location.pathname}?${params}`);
   };
 
   return (

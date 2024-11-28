@@ -1,8 +1,5 @@
 import { CurrentWeatherResponse } from "@/services/api/types";
-import {
-  getCurrentWeather,
-  getDirectGeocoding,
-} from "@/services/api/weatherApi";
+import { getCurrentWeather } from "@/services/api/weatherApi";
 import { useEffect } from "react";
 
 function useFetchWeather(
@@ -19,13 +16,11 @@ function useFetchWeather(
             coordinates.lon
           );
           setCurrentWeather(weather);
-        } else if (location.length > 3) {
-          const data = await getDirectGeocoding(location);
-          if (data.length === 0) return;
-
-          const { lat, lon } = data[0];
-
-          const weather = await getCurrentWeather(lat, lon);
+        } else if (location.length > 3 && coordinates) {
+          const weather = await getCurrentWeather(
+            coordinates.lat,
+            coordinates.lon
+          );
           setCurrentWeather(weather);
         }
       } catch (error) {
@@ -34,6 +29,6 @@ function useFetchWeather(
     };
 
     fetchWeather();
-  }, [location, coordinates, setCurrentWeather]);
+  }, [coordinates, setCurrentWeather, location]);
 }
 export default useFetchWeather;

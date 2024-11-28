@@ -2,34 +2,23 @@ import CardsContainer from "./reusable/CardsContainer";
 import windIcon from "@/assets/wind.png";
 import { localTime } from "@/utils/localTime";
 import { useWeatherContext } from "./hooks/useWeatherContext";
-import { useGeolocation } from "@/hooks/useGeoLocation";
-import {
-  getDirectGeocoding,
-  getReverseGeocode,
-} from "@/services/api/weatherApi";
 import { useEffect, useState } from "react";
+import { getReverseGeocode } from "@/services/api/weatherApi";
 
 function CurrentLocation() {
   const [city, setCity] = useState<string | undefined>("");
-  const { coordinates } = useGeolocation();
 
-  const { currentWeather, location } = useWeatherContext();
+  const { currentWeather, newCoordinates } = useWeatherContext();
 
   useEffect(() => {
     const getLocationName = async () => {
-      if (location.length > 3) {
-        const data = await getDirectGeocoding(location);
-        if (data.length === 0) return;
-        const { lat, lon } = data[0];
-        const city = await getReverseGeocode({ lat, lon });
-        setCity(city[0].name);
-        return;
-      }
-      const city = coordinates ? await getReverseGeocode(coordinates) : null;
+      const city = newCoordinates
+        ? await getReverseGeocode(newCoordinates)
+        : null;
       setCity(city?.[0].name);
     };
     getLocationName();
-  }, [coordinates, location]);
+  }, [newCoordinates]);
 
   return (
     <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 w-full">

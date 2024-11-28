@@ -1,19 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import unitTempCovert from "@/utils/tempConversor";
 import { useGeolocation } from "@/hooks/useGeoLocation";
-import { CurrentWeatherResponse } from "@/services/api/types";
+import { Coordinates, CurrentWeatherResponse } from "@/services/api/types";
 import useFetchWeather from "@/hooks/useFetchWeather";
+import { getDirectGeocoding } from "@/services/api/weatherApi";
 
 type WeatherContextType = {
   location: string;
   setLocation: (location: string) => void;
   currentWeather: CurrentWeatherResponse | null;
-  coordinates: {
+  newCoordinates: {
     lat: number;
     lon: number;
   } | null;
   tempUnit: string;
   handleTempUnit: (unit: string) => void;
+  setNewCoordinates: (coordinates: { lat: number; lon: number }) => void;
 };
 
 export const WeatherContext = createContext<WeatherContextType | null>(null);
@@ -23,15 +25,31 @@ export function WeatherContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const { coordinates } = useGeolocation();
   const [tempUnit, setTempUnit] = useState("C");
-
+  const [newCoordinates, setNewCoordinates] = useState<Coordinates | null>(
+    null
+  );
   const [location, setLocation] = useState("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherResponse | null>(null);
 
-  const { coordinates } = useGeolocation();
+  useFetchWeather(location, newCoordinates, setCurrentWeather);
+  console.log(coordinates);
 
-  useFetchWeather(location, coordinates, setCurrentWeather);
+  useEffect(() => {
+    setNewCoordinates(coordinates);
+    const getCoordinates = async () => {
+      if (location.length > 0) {
+        const data = await getDirectGeocoding(location);
+        if (data.length === 0) return;
+
+        const { lat, lon } = data[0];
+        setNewCoordinates({ lat, lon });
+      }
+    };
+    getCoordinates();
+  }, [coordinates, location]);
 
   const handleTempUnit = (unit: string) => {
     setTempUnit(unit);
@@ -54,9 +72,10 @@ export function WeatherContextProvider({
           },
         }
       : null,
-    coordinates,
+    newCoordinates,
     handleTempUnit,
     tempUnit,
+    setNewCoordinates,
   };
 
   return (
