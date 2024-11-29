@@ -1,5 +1,5 @@
 import SearchIcon from "@/assets/Search.svg";
-import { useWeatherContext } from "./hooks/useWeatherContext";
+import { useWeatherContext } from "../hooks/useWeatherContext";
 import { useCallback, useState } from "react";
 import debounce from "just-debounce-it";
 

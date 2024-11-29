@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import type { Coordinates } from "@/services/api/types";
-import { useWeatherContext } from "@/components/hooks/useWeatherContext";
 
 type GeolocationState = {
   coordinates: Coordinates | null;
