@@ -1,7 +1,7 @@
 import CardsContainer from "./reusable/CardsContainer";
 import windIcon from "@/assets/wind.png";
-import { localTime } from "@/utils/localTime";
-import { useWeatherContext } from "./hooks/useWeatherContext";
+import { timeFormatter } from "@/utils/timeFormatter";
+import { useWeatherContext } from "../hooks/useWeatherContext";
 import { useEffect, useState } from "react";
 import { getReverseGeocode } from "@/services/api/weatherApi";
 
@@ -26,7 +26,7 @@ function CurrentLocation() {
         <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}°</h1>
         <div className="text-end">
           <h2 className="text-2xl font-medium">{city}</h2>
-          <span className="text-xs">{localTime}</span>
+          <span className="text-xs">{timeFormatter()}</span>
         </div>
       </CardsContainer>
       <CardsContainer>
