@@ -37,6 +37,7 @@ export type CurrentWeatherResponse = {
 
 export type ForecastResponse = {
   list: Array<{
+    dt: number;
     dt_txt: string;
     main: CurrentWeatherResponse["main"];
     weather: WeatherCondition[];

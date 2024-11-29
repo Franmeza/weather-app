@@ -1,14 +1,20 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import unitTempCovert from "@/utils/tempConversor";
 import { useGeolocation } from "@/hooks/useGeoLocation";
-import { Coordinates, CurrentWeatherResponse } from "@/services/api/types";
+import {
+  Coordinates,
+  CurrentWeatherResponse,
+  ForecastResponse,
+} from "@/services/api/types";
 import useFetchWeather from "@/hooks/useFetchWeather";
 import { getDirectGeocoding } from "@/services/api/weatherApi";
+import useFetchForecast from "@/hooks/useFetchForecast";
 
 type WeatherContextType = {
   location: string;
   setLocation: (location: string) => void;
   currentWeather: CurrentWeatherResponse | null;
+  weatherForecast: ForecastResponse | null;
   newCoordinates: {
     lat: number;
     lon: number;
@@ -33,9 +39,11 @@ export function WeatherContextProvider({
   const [location, setLocation] = useState("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherResponse | null>(null);
+  const [weatherForecast, setWeatherForecast] =
+    useState<ForecastResponse | null>(null);
 
   useFetchWeather(location, newCoordinates, setCurrentWeather);
-  console.log(coordinates);
+  useFetchForecast(setWeatherForecast, newCoordinates);
 
   useEffect(() => {
     setNewCoordinates(coordinates);
@@ -51,13 +59,14 @@ export function WeatherContextProvider({
     getCoordinates();
   }, [coordinates, location]);
 
-  const handleTempUnit = (unit: string) => {
+  const handleTempUnit = useCallback((unit: string) => {
     setTempUnit(unit);
-  };
+  }, []);
 
   const contextValue = {
     location,
     setLocation,
+    weatherForecast,
     currentWeather: currentWeather
       ? {
           ...currentWeather,
