@@ -31,7 +31,9 @@ export type CurrentWeatherResponse = {
   wind: {
     speed: number;
   };
-
+  sys: {
+    country: string;
+  };
   name: string;
 };
 

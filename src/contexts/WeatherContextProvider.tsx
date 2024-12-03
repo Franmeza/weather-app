@@ -48,7 +48,7 @@ export function WeatherContextProvider({
   useEffect(() => {
     setNewCoordinates(coordinates);
     const getCoordinates = async () => {
-      if (location.length > 0) {
+      if (location.length > 3) {
         const data = await getDirectGeocoding(location);
         if (data.length === 0) return;
 

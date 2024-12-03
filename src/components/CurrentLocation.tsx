@@ -21,7 +21,7 @@ function CurrentLocation() {
   }, [newCoordinates]);
 
   return (
-    <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 w-full">
+    <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 min-w-[340px]">
       <CardsContainer>
         <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}°</h1>
         <div className="text-end">
