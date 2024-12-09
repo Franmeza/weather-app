@@ -1,8 +1,20 @@
 import { useWeatherContext } from "@/hooks/useWeatherContext";
 import { timeFormatter } from "@/utils/timeFormatter";
 import unitTempCovert from "@/utils/tempConversor";
+import { CurrentWeatherResponse, WeatherCondition } from "@/services/api/types";
 
-function HourlyForecastCard({ hourWeather }) {
+type HourlyForecastCardProps = {
+  dt: number;
+  dt_txt: string;
+  main: CurrentWeatherResponse["main"];
+  weather: WeatherCondition[];
+};
+
+function HourlyForecastCard({
+  hourWeather,
+}: {
+  hourWeather: HourlyForecastCardProps;
+}) {
   const { tempUnit } = useWeatherContext();
 
   return (
