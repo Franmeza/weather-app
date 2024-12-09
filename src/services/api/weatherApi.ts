@@ -52,7 +52,6 @@ async function getForecast(lat: number, lon: number) {
   const url = createUrl(`${API_CONFIG.BASE_URL}/forecast`, {
     lat,
     lon,
-    cnt: 8,
   });
   const data = await fetchData<ForecastResponse>(url);
   return data;
