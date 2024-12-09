@@ -26,7 +26,7 @@ function CurrentLocation() {
         <h1 className="text-6xl font-semibold">{currentWeather?.main.temp}°</h1>
         <div className="text-end">
           <h2 className="text-2xl font-medium">{city}</h2>
-          <span className="text-xs">{timeFormatter()}</span>
+          <span className="text-xs">{timeFormatter(undefined, "h:mm a")}</span>
         </div>
       </CardsContainer>
       <CardsContainer>
