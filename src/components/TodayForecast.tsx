@@ -6,7 +6,7 @@ function TodayForecast() {
 
   return (
     <section className=" flex flex-wrap  w-full  gap-4 ">
-      {weatherForecast?.list.map((item) => (
+      {weatherForecast?.list.slice(0, 8).map((item) => (
         <HourlyForecastCard key={item.dt} hourWeather={item} />
       ))}
     </section>
