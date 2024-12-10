@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useState } from "react";
-import unitTempCovert from "@/utils/tempConversor";
+import unitTempConvert from "@/utils/tempConversor";
 import { useGeolocation } from "@/hooks/useGeoLocation";
 import {
   Coordinates,
@@ -71,13 +71,13 @@ export function WeatherContextProvider({
       ? {
           ...currentWeather,
           main: {
-            temp: unitTempCovert(currentWeather.main.temp, tempUnit),
-            feels_like: unitTempCovert(
+            temp: unitTempConvert(currentWeather.main.temp, tempUnit),
+            feels_like: unitTempConvert(
               currentWeather.main.feels_like,
               tempUnit
             ),
-            temp_min: unitTempCovert(currentWeather.main.temp_min, tempUnit),
-            temp_max: unitTempCovert(currentWeather.main.temp_max, tempUnit),
+            temp_min: unitTempConvert(currentWeather.main.temp_min, tempUnit),
+            temp_max: unitTempConvert(currentWeather.main.temp_max, tempUnit),
           },
         }
       : null,

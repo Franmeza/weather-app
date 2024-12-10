@@ -1,4 +1,4 @@
-const unitTempCovert = (temp: number, unit: string) => {
+const unitTempConvert = (temp: number, unit: string) => {
   if (unit === "C") {
     return Math.round(temp - 273.15);
   } else {
@@ -6,4 +6,4 @@ const unitTempCovert = (temp: number, unit: string) => {
   }
 };
 
-export default unitTempCovert;
+export default unitTempConvert;

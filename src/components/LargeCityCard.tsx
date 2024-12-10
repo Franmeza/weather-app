@@ -1,4 +1,4 @@
-import unitTempCovert from "@/utils/tempConversor";
+import unitTempConvert from "@/utils/tempConversor";
 import CardsContainer from "./reusable/CardsContainer";
 import { CurrentWeatherResponse } from "@/services/api/types";
 import { useWeatherContext } from "@/hooks/useWeatherContext";
@@ -25,7 +25,7 @@ function LargeCityCard({ largeCity }: { largeCity: CurrentWeatherResponse }) {
         <CardsContainer>
           <p className="text-xs ">{largeCity.weather[0].main}</p>
           <span className="text-2xl">
-            {unitTempCovert(largeCity.main.temp, tempUnit)}°
+            {unitTempConvert(largeCity.main.temp, tempUnit)}°
           </span>
         </CardsContainer>
       </div>

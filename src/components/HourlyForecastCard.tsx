@@ -1,6 +1,6 @@
 import { useWeatherContext } from "@/hooks/useWeatherContext";
 import { timeFormatter } from "@/utils/timeFormatter";
-import unitTempCovert from "@/utils/tempConversor";
+import unitTempConvert from "@/utils/tempConversor";
 import { CurrentWeatherResponse, WeatherCondition } from "@/services/api/types";
 
 type HourlyForecastCardProps = {
@@ -19,7 +19,9 @@ function HourlyForecastCard({
 
   return (
     <div className="flex flex-col items-center  px-2 py-4 bg-[#20293A] rounded-2xl">
-      <span className="text-xs mb-3">{timeFormatter(hourWeather.dt_txt)}</span>
+      <span className="text-xs mb-3">
+        {timeFormatter(hourWeather.dt_txt, "h:mm a")}
+      </span>
       <div className="border-t-2 w-16 border-[#030616] "></div>
 
       <img
@@ -34,7 +36,7 @@ function HourlyForecastCard({
       </span>
 
       <h2 className="font-semibold text-[32px] mt-5">
-        {unitTempCovert(hourWeather?.main.temp, tempUnit)}°
+        {unitTempConvert(hourWeather?.main.temp, tempUnit)}°
       </h2>
     </div>
   );
