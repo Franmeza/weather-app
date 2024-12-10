@@ -1,4 +1,14 @@
-function TemperatureBar({ currentTemp, minTemp, maxTemp }) {
+type TemperatureBarProps = {
+  currentTemp: number;
+  minTemp: number;
+  maxTemp: number;
+};
+
+function TemperatureBar({
+  currentTemp,
+  minTemp,
+  maxTemp,
+}: TemperatureBarProps) {
   const range = Math.abs(maxTemp - minTemp);
 
   return (
