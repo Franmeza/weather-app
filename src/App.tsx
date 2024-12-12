@@ -33,9 +33,7 @@ function App() {
       <Header />
 
       <div className="grid min-[800px]:grid-cols-[auto,1fr]  gap-x-11 gap-y-9 mt-4">
-        <div>
-          <CurrentLocation />
-        </div>
+        <CurrentLocation />
         <TodayForecast />
         <OtherCitiesWeather />
         <FiveDaysForecast />

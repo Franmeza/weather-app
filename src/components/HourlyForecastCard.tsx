@@ -35,7 +35,7 @@ function HourlyForecastCard({
         {hourWeather?.weather[0].main}
       </span>
 
-      <h2 className="font-semibold text-[32px] mt-5">
+      <h2 className="font-semibold text-[32px] mt-4">
         {unitTempConvert(hourWeather?.main.temp, tempUnit)}°
       </h2>
     </div>

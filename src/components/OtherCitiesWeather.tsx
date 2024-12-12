@@ -36,12 +36,14 @@ function OtherCitiesWeather() {
   }, []);
 
   return (
-    <section className="flex flex-col gap-6 w-full ">
+    <section className="space-y-5 ">
       <H2>Other large cities</H2>
-      {largeCities.length > 0 &&
-        largeCities.map((city) => (
-          <LargeCityCard key={city.name} largeCity={city} />
-        ))}
+      <div className="flex flex-col gap-6 w-full ">
+        {largeCities.length > 0 &&
+          largeCities.map((city) => (
+            <LargeCityCard key={city.name} largeCity={city} />
+          ))}
+      </div>
     </section>
   );
 }
