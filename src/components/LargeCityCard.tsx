@@ -5,6 +5,7 @@ import { useWeatherContext } from "@/hooks/useWeatherContext";
 
 function LargeCityCard({ largeCity }: { largeCity: CurrentWeatherResponse }) {
   const { tempUnit } = useWeatherContext();
+
   return (
     <>
       <div className="bg-[#20293A] rounded-2xl px-5 py-5 ">

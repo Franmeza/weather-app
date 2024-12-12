@@ -46,7 +46,6 @@ function FiveDaysForecast() {
   }, {} as Record<string, DailyForecast>);
 
   const nextDays = Object.values(dailyForcast).slice(0, 5);
-  console.log(nextDays);
 
   return (
     <section className="space-y-5">

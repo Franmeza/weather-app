@@ -6,7 +6,6 @@ import LargeCityCard from "./LargeCityCard";
 
 function OtherCitiesWeather() {
   const [largeCities, setLargeCities] = useState<CurrentWeatherResponse[]>([]);
-  console.log(largeCities);
 
   const coordinatesLargeCities = {
     newyork: {
