@@ -16,7 +16,7 @@ export function useGeolocation() {
 
   const getLocation = async () => {
     setLocationData((prev) => ({ ...prev, isLoading: true, error: null }));
-
+    //if not possible to access geolocation on the browser
     if (!navigator.geolocation) {
       setLocationData({
         coordinates: null,
@@ -25,7 +25,7 @@ export function useGeolocation() {
       });
       return;
     }
-
+    //Geolocation is allowed
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocationData({
@@ -76,5 +76,6 @@ export function useGeolocation() {
 
   return {
     ...locationData,
+    getLocation,
   };
 }
