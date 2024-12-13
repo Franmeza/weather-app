@@ -40,8 +40,8 @@ function CurrentLocation() {
               className="inline"
               src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0].icon}@4x.png`}
               alt={currentWeather?.weather[0].description}
-              width={36}
-              height={36}
+              width={45}
+              height={45}
             />
             <span className="ml-3">{currentWeather?.weather[0].main}</span>
           </div>
@@ -49,8 +49,8 @@ function CurrentLocation() {
             <img
               className="inline"
               src={windIcon}
-              width={36}
-              height={36}
+              width={45}
+              height={45}
               alt="wind"
             />
             <span className="ml-3">{currentWeather?.wind.speed} m/s</span>

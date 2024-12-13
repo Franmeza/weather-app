@@ -28,8 +28,8 @@ function HourlyForecastCard({
         className="mt-4"
         src={`https://openweathermap.org/img/wn/${hourWeather?.weather[0].icon}@4x.png`}
         alt=""
-        height={36}
-        width={36}
+        height={45}
+        width={45}
       />
       <span className="font-medium text-[10px] text-[#97A3B6]">
         {hourWeather?.weather[0].main}

@@ -71,8 +71,8 @@ function FiveDaysForecast() {
             <div className="flex justify-center items-center ">
               <img
                 src={`https://openweathermap.org/img/wn/${day.weather.icon}@4x.png`}
-                width={36}
-                height={36}
+                width={45}
+                height={45}
               />
               <p className="text-[10px] text-[#97A3B6]">{day.weather.main}</p>
             </div>

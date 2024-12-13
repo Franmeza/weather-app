@@ -18,8 +18,8 @@ function LargeCityCard({ largeCity }: { largeCity: CurrentWeatherResponse }) {
             <img
               src={`https://openweathermap.org/img/wn/${largeCity.weather[0].icon}@4x.png`}
               alt="weather icon"
-              width={36}
-              height={36}
+              width={45}
+              height={45}
             />
           </div>
         </CardsContainer>
