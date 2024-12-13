@@ -1,7 +1,6 @@
 import { useWeatherContext } from "@/hooks/useWeatherContext";
 import H2 from "./reusable/H2";
 import { format } from "date-fns";
-
 import unitTempConvert from "@/utils/tempConversor";
 import TemperatureBar from "./TemperatureBar";
 
@@ -20,7 +19,7 @@ function FiveDaysForecast() {
   const { weatherForecast, tempUnit } = useWeatherContext();
   if (!weatherForecast) return null;
 
-  const dailyForcast = weatherForecast.list.reduce((acc, forecast) => {
+  const dailyForecast = weatherForecast.list.reduce((acc, forecast) => {
     const date = format(new Date(forecast.dt * 1000), "yyyy-MM-dd");
 
     if (!acc[date]) {
@@ -36,6 +35,7 @@ function FiveDaysForecast() {
         acc[date].temp_min,
         unitTempConvert(forecast.main.temp_min, tempUnit)
       );
+
       acc[date].temp_max = Math.max(
         acc[date].temp_max,
         unitTempConvert(forecast.main.temp_max, tempUnit)
@@ -45,7 +45,17 @@ function FiveDaysForecast() {
     return acc;
   }, {} as Record<string, DailyForecast>);
 
-  const nextDays = Object.values(dailyForcast).slice(0, 5);
+  const nextDays = Object.values(dailyForecast).slice(0, 5);
+  console.log(nextDays);
+  // Global values for temp_min and temp_max
+  const globalTemps = Object.values(dailyForecast).reduce(
+    (acc, day) => {
+      acc.min = Math.min(acc.min, day.temp_min);
+      acc.max = Math.max(acc.max, day.temp_max);
+      return acc;
+    },
+    { min: Infinity, max: -Infinity } // Initial Values
+  );
 
   return (
     <section className="space-y-5">
@@ -68,9 +78,10 @@ function FiveDaysForecast() {
             </div>
 
             <TemperatureBar
-              currentTemp={day.temp}
               maxTemp={day.temp_max}
               minTemp={day.temp_min}
+              globalMinTemp={globalTemps.min}
+              globalMaxTemp={globalTemps.max}
             />
           </div>
         ))}
