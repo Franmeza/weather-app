@@ -5,6 +5,7 @@ import {
   CurrentWeatherResponse,
   ForecastResponse,
   GeocodingResponse,
+  WeatherHistoryResponse,
 } from "./types";
 
 function createUrl(endpoint: string, params: Record<string, string | number>) {
@@ -15,7 +16,7 @@ function createUrl(endpoint: string, params: Record<string, string | number>) {
   return `${endpoint}?${searchParams.toString()}`;
 }
 
-async function fetchData<T>(url: string): Promise<T> {
+export async function fetchData<T>(url: string): Promise<T> {
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch data");
   const data = await res.json();
@@ -57,9 +58,17 @@ async function getForecast(lat: number, lon: number) {
   return data;
 }
 
+async function getWeatherHistory() {
+  const data = fetchData<WeatherHistoryResponse>(
+    `${API_CONFIG.OWN_API_URL}/weather`
+  );
+  return data;
+}
+
 export {
   getDirectGeocoding,
   getReverseGeocode,
   getCurrentWeather,
   getForecast,
+  getWeatherHistory,
 };

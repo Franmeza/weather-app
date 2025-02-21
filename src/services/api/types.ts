@@ -45,3 +45,13 @@ export type ForecastResponse = {
     weather: WeatherCondition[];
   }>;
 };
+
+export type WeatherHistoryResponse = {
+  data: Array<{
+    temperature: number;
+    humidity: number;
+    lightIntesity: number;
+    atmosphericPressure: number;
+    createdAt: string;
+  }>;
+};
