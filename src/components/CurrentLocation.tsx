@@ -4,6 +4,13 @@ import { timeFormatter } from "@/utils/timeFormatter";
 import { useWeatherContext } from "../hooks/useWeatherContext";
 import { useEffect, useState } from "react";
 import { getReverseGeocode } from "@/services/api/weatherApi";
+import GrahpModal from "./GraphModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function CurrentLocation() {
   const [city, setCity] = useState<string | undefined>("");
@@ -19,16 +26,33 @@ function CurrentLocation() {
     };
     getLocationName();
   }, [newCoordinates]);
+  function TooltipDemo() {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <GrahpModal />
+          </TooltipTrigger>
+          <TooltipContent className="text-wrap">
+            <p>See Calgary's last 7 days humidity and temperature variation</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   return (
     <div>
       <section className="bg-[#20293A] rounded-2xl px-5 py-6 space-y-3 min-w-[340px]">
         <CardsContainer>
-          <h1 className="text-6xl font-semibold">
+          <span className="text-6xl font-semibold">
             {currentWeather?.main.temp}°
-          </h1>
+          </span>
           <div className="text-end">
-            <h2 className="text-2xl font-medium">{city}</h2>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-medium">{city}</h1>
+              {city === "Calgary" ? <TooltipDemo /> : null}
+            </div>
             <span className="text-xs">
               {timeFormatter(undefined, "h:mm a")}
             </span>
