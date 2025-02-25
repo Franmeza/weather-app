@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http:http://ec2-18-232-83-24.compute-1.amazonaws.com/api/:path*"
+    }
+  ]
+}
