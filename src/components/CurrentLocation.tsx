@@ -51,7 +51,7 @@ function CurrentLocation() {
           <div className="text-end">
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-medium">{city}</h1>
-              {city === "Calgary" ? <TooltipDemo /> : null}
+              {/* {city === "Calgary" ? <TooltipDemo /> : null} */}
             </div>
             <span className="text-xs">
               {timeFormatter(undefined, "h:mm a")}
