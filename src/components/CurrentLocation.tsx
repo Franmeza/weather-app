@@ -26,20 +26,20 @@ function CurrentLocation() {
     };
     getLocationName();
   }, [newCoordinates]);
-  function TooltipDemo() {
-    return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <GrahpModal />
-          </TooltipTrigger>
-          <TooltipContent className="text-wrap">
-            <p>See Calgary's last 7 days humidity and temperature variation</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    );
-  }
+  // function TooltipDemo() {
+  //   return (
+  //     <TooltipProvider>
+  //       <Tooltip>
+  //         <TooltipTrigger>
+  //           <GrahpModal />
+  //         </TooltipTrigger>
+  //         <TooltipContent className="text-wrap">
+  //           <p>See Calgary's last 7 days humidity and temperature variation</p>
+  //         </TooltipContent>
+  //       </Tooltip>
+  //     </TooltipProvider>
+  //   );
+  // }
 
   return (
     <div>
