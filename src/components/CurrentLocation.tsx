@@ -4,13 +4,13 @@ import { timeFormatter } from "@/utils/timeFormatter";
 import { useWeatherContext } from "../hooks/useWeatherContext";
 import { useEffect, useState } from "react";
 import { getReverseGeocode } from "@/services/api/weatherApi";
-import GrahpModal from "./GraphModal";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+// import GrahpModal from "./GraphModal";
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger,
+// } from "@/components/ui/tooltip";
 
 function CurrentLocation() {
   const [city, setCity] = useState<string | undefined>("");
